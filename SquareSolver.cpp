@@ -9,23 +9,23 @@ int main(void){
     printf("(or q for exit)\n");
 
     while (scanf("%d %d %d", &a, &b, &c)==3){
-            if (a==0){                                                         //Если уравнение оказалось не квадратным
+            if (a==0){                                                         //IF equation is not square
                     x1=x2=(float)(-c)/b;
                     printf("This is not square equation, the root is %.3f\n", x1);
-            }                                                                  //Уравнение оказалось квадратным
+            }                                                                  //IF equation is square
             else{
                 D=b*b-4*a*c;
-                if (D>0){                                                      //Дискриминат больше 0
+                if (D>0){                                                      //if discriminate > 0
                     D = pow(D,0.5);
                     x1=(-b-D)/(2*(float)a);
                     x2=(-b+D)/(2*(float)a);
                     printf ("The roots of equation are %.3f and %.3f\n", x1, x2);
                 }
-                else if (D==0){                                                //Дискриминат равен 0
+                else if (D==0){                                                //if discriminate == 0
                         x1=x2=((float)-b)/(2*(float)a);
                         printf("The root of equation is %.3f\n", x1);
                 }
-                else                                                           //Дискриминат меньше 0
+                else                                                           //if discriminate < 0
                     printf("The equation haven't roots in R\n");
             }
 
