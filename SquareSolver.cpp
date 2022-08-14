@@ -9,7 +9,7 @@ int main(void){
     printf("(or q for exit)\n");
 
     while (scanf("%d %d %d", &a, &b, &c)==3){
-            if (a==0){                                                         //IF equation is not square
+            if (a==0){                                                         //IF equation isn't square
                     x1=x2=(float)(-c)/b;
                     printf("This is not square equation, the root is %.3f\n", x1);
             }                                                                  //IF equation is square
