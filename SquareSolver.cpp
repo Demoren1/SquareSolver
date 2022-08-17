@@ -6,7 +6,7 @@ int main(void)
 {
     char exit = 'A';
     double x1=0, x2=0;
-    int a=0, b=0, c=0, D=0;
+    int a=0, b=0, c=0, D=0, flag=0;     //if flag == 1 - lit in buffer
 
     printf("Input coefficients for equation a*x^2+b*x+c=0 \n");
 
@@ -18,7 +18,9 @@ int main(void)
     c = test_int();
 
     while (getchar() != EOF){
-            if (a==0){                                                         //IF equation isn't square
+            if (a ==0 && b ==0)
+                printf("%s", (c==0) ? "x belong R": "x belong empty set");
+            else if (a==0){                                                         //IF equation isn't square
                     x1=x2=(float)(-c)/b;
                     printf("This is not square equation, the root is %.3f\n", x1);
             }                                                                  //IF equation is square
@@ -41,8 +43,13 @@ int main(void)
             printf("\n\nInput coefficients for equation a*x^2+b*x+c=0 \n");
             printf("Input q if want to continue, else press enter\n");
 
-            if(getchar() == 'q')
+            exit = getchar();
+            if(exit == 'q')
                 break;
+            else if (exit == '\n');
+            else
+                while (getchar() != '\n')
+                    continue;
 
             printf("a=");
             a = test_int();
@@ -60,7 +67,6 @@ int test_int(void)
 {
     char ch = 'A';
     int x = 0;
-
 
     while(scanf("%d", &x) != 1)
     {
