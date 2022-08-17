@@ -1,14 +1,23 @@
 #include <stdio.h>
 #include <math.h>
 
-int main(void){
+int test_int(void);      //check number on integrity, if int - return
+int main(void)
+{
+    char exit = 'A';
     double x1=0, x2=0;
     int a=0, b=0, c=0, D=0;
 
     printf("Input coefficients for equation a*x^2+b*x+c=0 \n");
-    printf("(or q for exit)\n");
 
-    while (scanf("%d %d %d", &a, &b, &c)==3){
+    printf("a=");
+    a = test_int();
+    printf("b=");
+    b = test_int();
+    printf("c=");
+    c = test_int();
+
+    while (getchar() != EOF){
             if (a==0){                                                         //IF equation isn't square
                     x1=x2=(float)(-c)/b;
                     printf("This is not square equation, the root is %.3f\n", x1);
@@ -29,9 +38,37 @@ int main(void){
                     printf("The equation haven't roots in R\n");
             }
 
-            printf("Input coefficients for equation a*x^2+b*x+c=0 \n");
-            printf("(or q for exit)\n");
+            printf("\n\nInput coefficients for equation a*x^2+b*x+c=0 \n");
+            printf("Input q if want to continue, else press enter\n");
+
+            if(getchar() == 'q')
+                break;
+
+            printf("a=");
+            a = test_int();
+            printf("b=");
+            b = test_int();
+            printf("c=");
+            c= test_int();
+
     }
 
     return 0;
+}
+
+int test_int(void)
+{
+    char ch = 'A';
+    int x = 0;
+
+
+    while(scanf("%d", &x) != 1)
+    {
+        while ( (ch =getchar() ) != '\n')
+            putchar(ch);
+
+        printf(" is not int number, please input int number: ");
+    }
+
+    return x;
 }
