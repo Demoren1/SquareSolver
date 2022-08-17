@@ -56,7 +56,8 @@ int main(void)
             exit = getchar();
             if(exit == 'q')
                 break;
-            else if (exit == '\n');
+            else if (exit == '\n')
+                {}
             else
                 while (getchar() != '\n')
                     continue;
