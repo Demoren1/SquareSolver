@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 
-double test_num(void);      //check number on integrity, if int - return
+double test_num(void);      //check is input are number, if number - return
 int main(void)
 {
     char exit = 'A';
