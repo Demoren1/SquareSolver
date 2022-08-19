@@ -113,8 +113,6 @@ void square_equation(double a, double b, double c, double D)
 
 void input_reset(void)
 {
-    char trash = 'A';
-
     while (getchar() != '\n')
         continue;
 }
