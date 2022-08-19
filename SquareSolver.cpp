@@ -6,50 +6,23 @@ void linnar_equation(double b, double c);
 void square_equation(double a, double b, double c, double D);
 void not_equation (double c);
 void input_reset(void);
-int test_exit(void);                   //boolean function
+int  test_exit(void);
+void input (double &a, double &b, double &c);                         //boolean function
+void solver(double a, double b, double c);                             //choose right version of solution
+void invite_to_input (void);
 
 int main(void)
 {
-    double x1 = 0, x2 = 0, a = 0, b = 0, c = 0, D = 0;
-
-    printf("Input coefficients for equation a*x^2+b*x+c=0 \n");
-
-    printf("a=");
-    a = test_num();
-    printf("b=");
-    b = test_num();
-    printf("c=");
-    c = test_num();
+    double a = 0, b = 0, c = 0;
 
     while ( 1 )
     {
-            if (a == 0 && b == 0)
-                not_equation(c);
-            else if (a == 0)
-            {
-                linnar_equation(b, c);                                                                  //IF equation isn't square
-            }
-            else
-            {
-                D = b * b - 4 * a * c;
-                square_equation(a, b, c, D);
-            }
-
-            input_reset();
-
-            printf("\n\nInput coefficients for equation a*x^2+b*x+c=0 \n");
-            printf("Input q if want to continue, else press enter\n");
-
+            invite_to_input();
             if (test_exit() )
                 break;
-
-            printf("a=");
-            a = test_num();
-            printf("b=");
-            b = test_num();
-            printf("c=");
-            c = test_num();
-
+            input(a, b, c);
+            solver (a, b, c);
+            input_reset();
     }
 
     return 0;
@@ -83,9 +56,11 @@ void linnar_equation(double b, double c)
     printf("This is not square equation, the root is %.3f\n", x);
 }
 
-void square_equation(double a, double b, double c, double D)
+void square_equation(double a, double b, double c)
 {
-    double x1 = 0, x2 = 0;
+    double x1 = 0, x2 = 0, D = 0;
+
+    D = b * b - 4 * a * c;
 
     if (D > 0)
     {                                                               //if discriminate > 0
@@ -127,11 +102,31 @@ int test_exit(void)
     return 0;
 }
 
+void input(double &a, double &b, double &c)
+{
+    printf("a=");
+    a = test_num();
+    printf("b=");
+    b = test_num();
+    printf("c=");
+    c = test_num();
+}
 
+void solver(double a, double b, double c)
+{
+    double roots[2];
+    if (a == 0 && b == 0)
+        not_equation(c);
+    else if (a == 0)
+        linnar_equation(b, c);
+    else square_equation(a, b, c);
+}
 
-
-
-
+void invite_to_input(void)
+{
+    printf("\n\nInput coefficients for equation a*x^2+b*x+c=0 \n");
+    printf("Input q if want to exit, else press enter\n");
+}
 
 
 
