@@ -6,11 +6,11 @@ void linnar_equation(double b, double c);
 void square_equation(double a, double b, double c, double D);
 void not_equation (double c);
 void input_reset(void);
-
+int exit_test(void);                   //boolean function
 
 int main(void)
 {
-    char exit = 'A';
+    int exit = 0;
     double x1 = 0, x2 = 0, a = 0, b = 0, c = 0, D = 0;
 
     printf("Input coefficients for equation a*x^2+b*x+c=0 \n");
@@ -113,12 +113,13 @@ void square_equation(double a, double b, double c, double D)
 
 void input_reset(void)
 {
-    char trash = 'A';
-
     while (getchar() != '\n')
         continue;
 }
 
+int test_exit(void)
+{
+    char test = 'A';
 
 
 
