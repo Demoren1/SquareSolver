@@ -1,162 +1,184 @@
 #include <stdio.h>
 #include <math.h>
+#include <cmath>   // for isfinite
+#include <float.h>
+#include <assert.h>
 
-double test_num(void);                       //check is input are number, if number - return
-void linnar_equation(double b, double c, double* root1, int* flag);
-void square_equation(double a, double b, double c, double* root1, double* root2, int* flag);
-void not_equation (double c, int* flag);
-void input_reset(void);
-int  test_exit(void);
-void input (double* a, double* b, double* c);                         //boolean function
-void solver(double a, double b, double c, double* root1, double* root2, int* flag);                             //choose right version of solution
+const char END_INPUT = 'q';
+
+char get_number(double* x);
+void solve_linnar_equation(double b, double c, struct result*);
+void solve_square_equation(struct param*, struct result*);
+void clear_of_buff (void);
+char input_parameters (struct param*);                         //boolean function
 void invite_to_input (void);
-void output(double root1, double root2, int flag);
-enum output_ways {inf_roots, null_roots, linnar_root, square_roots, square_root, roots_in_C};
-struct result{
-    double root1;
-    double root2;
-    int flag;
+void output(struct result);
+int is_zero(double u, double v);
+
+enum quantity_of_roots
+{
+    ZERO_ROOT,
+    ONE_ROOT,
+    TWO_ROOTS,
+    INF_ROOTS
 };
 
-int main(void)
+struct param
+{   double a;
+    double b;
+    double c;
+};
+
+struct result
 {
-    double a = 0, b = 0, c = 0;
-    struct result solution;
-    solution.root1 = 0, solution.root2 = 0;
-    solution.flag = -1;
-    while ( 1 )
+    double root1;
+    double root2;
+    int n_roots;
+};
+
+int main()
+{
+    struct Result solution  = {0, 0, -1};
+    struct param parameters = {0, 0,  0};
+    int is_ran_solver_eq    = 1;
+
+    while ( is_ran_solver_eq  )
     {
-            invite_to_input();
-            if (test_exit() )
+            invite_to_input();            //SOLUTION->root1
+            if ( input_parameters(&parameters) == END_INPUT)
+            {
+                is_ran_solver_eq = 0;
                 break;
-            input(&a, &b, &c);
-            solver (a, b, c, &solution.root1, &solution.root2, &solution.flag);
-            output(solution.root1, solution.root2, solution.flag);
-            input_reset();
+            }
+            solve_square_equation(&parameters ,&solution);
+            output(solution);
+            clear_of_buff();
     }
 
     return 0;
 }
 
-double test_num(void)
+char get_number(double* x)
 {
-    char ch = 'A';
-    double x = 0;
+    char current_sym = 0;
 
-    while(scanf("%lf", &x) != 1)
+    while (scanf("%lf", x) != 1)
     {
-        while ( (ch = getchar() ) != '\n')
-            putchar(ch);
+        current_sym = getchar();
 
-        printf(" is not number, please input  number: ");
+        if (current_sym == 'q')      // magic
+            return END_INPUT;
+
+        while ( current_sym != '\n')
+            current_sym = getchar();
+
+        printf("is not number, please input  number: ");
     }
-
-    return x;
 }
 
-void not_equation(double c, int* flag)
+void solve_linnar_equation(double b, double c, struct result* sol)
 {
-    *flag = (c == 0) ? 0 : 1;
-}
+    assert (sol != NULL);
+    assert (std::isfinite(b));
+    assert (std::isfinite(c));
 
-void linnar_equation(double b, double c, double* root1, int* flag)
-{
-    *root1 = (-c) / b;
-    *flag = 2;
-}
-
-void square_equation(double a, double b, double c, double* root1, double* root2, int* flag)
-{
-    double D = 0;
-
-    D = b * b - 4 * a * c;
-
-    if (D > 0)
-    {                                                               //if discriminate > 0
-        D = sqrt(D);
-        *root1 = (-b - D) / (2 * a);
-        *root2 = (-b + D) / (2 * a);
-        *flag = 3;
-    }
-    else if (D == 0)
-    {                                                               //if discriminate == 0
-        *root1 = (-b) / (2 * a);
-        *flag = 4;
-    }
+    if (is_zero(b))
+        sol->n_roots = (is_zero(c)) ? INF_ROOTS : ZERO_ROOT;
     else
-        *flag = 5;                                                  //if discriminate < 0
+    {
+        sol->root1 = (-c) / b;
+        sol->n_roots = 2;
+    }
 }
 
-void input_reset(void)
+void solve_square_equation(struct param* par, struct result* sol)
+{
+    assert (par != NULL);
+    assert (sol != NULL);
+    assert (std::isfinite(par->a));
+    assert (std::isfinite(par->b));
+    assert (std::isfinite(par->c));
+
+    double a = par->a, b = par->b, c = par->c;
+    double D = 0, sqrt_D = 0;
+    double double_a = 2*a;
+
+    if (is_zero(a))
+        solve_linnar_equation(b, c, sol);
+    else
+    {
+        D = b * b - 4 * a * c;
+
+        if (D > 0)
+        {
+            sqrt_D = sqrt(D);
+            sol->root1 = (-b - sqrt_D) / double_a;
+            sol->root2 = (-b + sqrt_D) / double_a;
+            sol->n_roots = 2;
+        }
+        else if (is_zero(D))
+        {
+            sol->root1 = (-b) / double_a;
+            sol->n_roots = 1;
+        }
+        else
+            sol->n_roots = 0;
+    }
+}
+
+void clear_of_buff(void)
 {
     while (getchar() != '\n')
         continue;
 }
 
-int test_exit(void)
+char input_parameters(struct param* par)
 {
-    char test = 'A';
+    assert(par != NULL);
 
-    test = getchar();
-
-    if (test == 'q')
-        return 1;
-    else if (test == '\n')
-        {}
-    else
-        input_reset();
+    printf("a=");
+    if ( get_number(&par->a) == END_INPUT)
+        return END_INPUT;
+    printf("b=");
+    if ( get_number(&par->b) == END_INPUT)
+        return END_INPUT;
+    printf("c=");
+    if ( get_number(&par->c) == END_INPUT)
+        return END_INPUT;
 
     return 0;
-}
-
-void input(double* a, double* b, double* c)
-{
-    printf("a=");
-    *a = test_num();
-    printf("b=");
-    *b = test_num();
-    printf("c=");
-    *c = test_num();
-}
-
-void solver(double a, double b, double c, double* root1, double* root2, int* flag)
-{
-    if (a == 0 && b == 0)
-        not_equation(c, flag);
-    else if (a == 0)
-        linnar_equation(b, c, root1, flag);
-    else square_equation(a, b, c, root1, root2, flag);
 }
 
 void invite_to_input(void)
 {
     printf("\n\nInput coefficients for equation a*x^2+b*x+c=0 \n");
-    printf("Input q if want to exit, else press enter\n");
+    printf("Input q if want to exit.\n");
 }
 
-void output(double root1, double root2, int flag)
+void output(struct result sol)
 {
-    switch(flag)
+    switch(sol.n_roots)
     {
-    case inf_roots:
-        printf("x belong to R");
-        break;
-    case null_roots:
+    case ZERO_ROOT:
         printf("x belong to empty set");
         break;
-    case linnar_root:
-        printf("This is not square equation, the root is %.3f\n", root1);
+    case ONE_ROOT:
+        printf("The root of equation is %.3f\n", sol.root1);
         break;
-    case square_roots:
-        printf ("The roots of equation are %.3f and %.3f\n", root1, root2);
+    case TWO_ROOTS:
+        printf ("The roots of equation are %.3f and %.3f\n", sol.root1, sol.root2);
         break;
-    case square_root:
-        printf("The root of equation is %.3f\n", root1);
+    case INF_ROOTS:
+        printf("x belong to R\n");
         break;
-    case roots_in_C:
-        printf("The equation haven't roots in R\n");
+    default:
+        printf("ERROR, invalid quantity of roots");
         break;
     }
 }
 
+int is_zero(double u)
+{
+    return (fabs(u - FLT_EPSILON) <= FLT_EPSILON);
+}
 
