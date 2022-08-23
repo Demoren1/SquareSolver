@@ -2,15 +2,18 @@
 #include <math.h>
 
 double test_num(void);                       //check is input are number, if number - return
-void linnar_equation(double b, double c, double * root1, int * flag);
-void square_equation(double a, double b, double c, double * root1, double * root2,int * flag);
-void not_equation (double c, int * flag);
+void linnar_equation(double b, double c, double* root1, int* flag);
+void square_equation(double a, double b, double c, double* root1, double* root2, int* flag);
+void not_equation (double c, int* flag);
 void input_reset(void);
 int  test_exit(void);
-void input (double * a, double * b, double * c);                         //boolean function
-void solver(double a, double b, double c, double * root1, double * root2,int * flag);                             //choose right version of solution
+void input (double* a, double* b, double* c);                         //boolean function
+void solver(double a, double b, double c, double* root1, double* root2, int* flag);                             //choose right version of solution
 void invite_to_input (void);
 void output(double root1, double root2, int flag);
+enum output_ways {inf_roots, null_roots, linnar_root, square_roots, square_root, roots_in_C};
+
+
 int main(void)
 {
     double a = 0, b = 0, c = 0, root1 = 0, root2 = 0;
@@ -46,18 +49,18 @@ double test_num(void)
     return x;
 }
 
-void not_equation(double c, int * flag)
+void not_equation(double c, int* flag)
 {
     *flag = (c == 0) ? 0 : 1;
 }
 
-void linnar_equation(double b, double c, double * root1, int * flag)
+void linnar_equation(double b, double c, double* root1, int* flag)
 {
     *root1 = (-c) / b;
     *flag = 2;
 }
 
-void square_equation(double a, double b, double c, double * root1, double * root2, int * flag)
+void square_equation(double a, double b, double c, double* root1, double* root2, int* flag)
 {
     double D = 0;
 
@@ -65,9 +68,9 @@ void square_equation(double a, double b, double c, double * root1, double * root
 
     if (D > 0)
     {                                                               //if discriminate > 0
-        D = pow(D, 0.5);
-        *root1 = (-b -D) / (2 * a);
-        *root2 = (-b + D)/(2 * a);
+        D = sqrt(D);
+        *root1 = (-b - D) / (2 * a);
+        *root2 = (-b + D) / (2 * a);
         *flag = 3;
     }
     else if (D == 0)
@@ -101,7 +104,7 @@ int test_exit(void)
     return 0;
 }
 
-void input(double * a, double * b, double * c)
+void input(double* a, double* b, double* c)
 {
     printf("a=");
     *a = test_num();
@@ -111,7 +114,7 @@ void input(double * a, double * b, double * c)
     *c = test_num();
 }
 
-void solver(double a, double b, double c, double * root1, double * root2, int * flag)
+void solver(double a, double b, double c, double* root1, double* root2, int* flag)
 {
     if (a == 0 && b == 0)
         not_equation(c, flag);
@@ -130,22 +133,22 @@ void output(double root1, double root2, int flag)
 {
     switch(flag)
     {
-    case 0:
+    case inf_roots:
         printf("x belong to R");
         break;
-    case 1:
+    case null_roots:
         printf("x belong to empty set");
         break;
-    case 2:
+    case linnar_root:
         printf("This is not square equation, the root is %.3f\n", root1);
         break;
-    case 3:
+    case square_roots:
         printf ("The roots of equation are %.3f and %.3f\n", root1, root2);
         break;
-    case 4:
+    case square_root:
         printf("The root of equation is %.3f\n", root1);
         break;
-    case 5:
+    case roots_in_C:
         printf("The equation haven't roots in R\n");
         break;
     }
