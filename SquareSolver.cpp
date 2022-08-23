@@ -12,21 +12,26 @@ void solver(double a, double b, double c, double* root1, double* root2, int* fla
 void invite_to_input (void);
 void output(double root1, double root2, int flag);
 enum output_ways {inf_roots, null_roots, linnar_root, square_roots, square_root, roots_in_C};
-
+struct result{
+    double root1;
+    double root2;
+    int flag;
+};
 
 int main(void)
 {
-    double a = 0, b = 0, c = 0, root1 = 0, root2 = 0;
-    int flag = -1;
-
+    double a = 0, b = 0, c = 0;
+    struct result solution;
+    solution.root1 = 0, solution.root2 = 0;
+    solution.flag = -1;
     while ( 1 )
     {
             invite_to_input();
             if (test_exit() )
                 break;
             input(&a, &b, &c);
-            solver (a, b, c, &root1, &root2, &flag);
-            output(root1, root2, flag);
+            solver (a, b, c, &solution.root1, &solution.root2, &solution.flag);
+            output(solution.root1, solution.root2, solution.flag);
             input_reset();
     }
 
