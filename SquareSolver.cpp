@@ -7,13 +7,13 @@
 const char END_INPUT = 'q';
 
 char get_number(double* x);
-void solve_linnar_equation(double b, double c, struct result*);
-void solve_square_equation(struct param*, struct result*);
+void solve_linnar_equation(double b, double c, struct Result*);
+void solve_square_equation(struct Param*, struct Result*);
 void clear_of_buff (void);
-char input_parameters (struct param*);                         //boolean function
+char input_parameters (struct Param*);
 void invite_to_input (void);
-void output(struct result);
-int is_zero(double u, double v);
+void output(struct Result);
+int is_zero(double u);
 
 enum quantity_of_roots
 {
@@ -23,13 +23,13 @@ enum quantity_of_roots
     INF_ROOTS
 };
 
-struct param
+struct Param
 {   double a;
     double b;
     double c;
 };
 
-struct result
+struct Result
 {
     double root1;
     double root2;
@@ -39,7 +39,7 @@ struct result
 int main()
 {
     struct Result solution  = {0, 0, -1};
-    struct param parameters = {0, 0,  0};
+    struct Param parameters = {0, 0,  0};
     int is_ran_solver_eq    = 1;
 
     while ( is_ran_solver_eq  )
@@ -76,7 +76,7 @@ char get_number(double* x)
     }
 }
 
-void solve_linnar_equation(double b, double c, struct result* sol)
+void solve_linnar_equation(double b, double c, struct Result* sol)
 {
     assert (sol != NULL);
     assert (std::isfinite(b));
@@ -91,7 +91,7 @@ void solve_linnar_equation(double b, double c, struct result* sol)
     }
 }
 
-void solve_square_equation(struct param* par, struct result* sol)
+void solve_square_equation(struct Param* par, struct Result* sol)
 {
     assert (par != NULL);
     assert (sol != NULL);
@@ -132,18 +132,18 @@ void clear_of_buff(void)
         continue;
 }
 
-char input_parameters(struct param* par)
+char input_parameters(struct Param* par)
 {
     assert(par != NULL);
 
     printf("a=");
-    if ( get_number(&par->a) == END_INPUT)
+    if ( get_number(&par->a) == 'q')
         return END_INPUT;
     printf("b=");
-    if ( get_number(&par->b) == END_INPUT)
+    if ( get_number(&par->b) == 'q')
         return END_INPUT;
     printf("c=");
-    if ( get_number(&par->c) == END_INPUT)
+    if ( get_number(&par->c) == 'q')
         return END_INPUT;
 
     return 0;
@@ -155,7 +155,7 @@ void invite_to_input(void)
     printf("Input q if want to exit.\n");
 }
 
-void output(struct result sol)
+void output(struct Result sol)
 {
     switch(sol.n_roots)
     {
