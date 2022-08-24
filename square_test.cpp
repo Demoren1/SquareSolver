@@ -12,7 +12,7 @@ void output_tests(struct Result* output_t, int number_of_test);
 
 void test_square_equation()
 {
-    for (int passed_tests = 0; passed_tests < 6; )
+    for (int passed_tests = 0; passed_tests < 7; )
     {
         struct Param test_parameters = {0, 0, 0};
         struct Result test_roots     = {0, 0, 0};
@@ -49,6 +49,7 @@ void input_tests(struct Param* input_t, int number_of_test)
     test_parameters[3] = {0,    0,     0};
     test_parameters[4] = {0,    0,     1};
     test_parameters[5] = {0,  0.3,  0.15};
+    test_parameters[6] = {2,  -25,   12};
 
     *(input_t) = test_parameters[number_of_test];
 }
@@ -63,6 +64,7 @@ void output_tests(struct Result* output_t, int number_of_test)
     test_output[3] = {    0,   0,  3};
     test_output[4] = {    0,   0,  0};
     test_output[5] = { -0.5,   0,  1};
+    test_output[6] = {  0.5,  12,  2};
 
 
     *(output_t) = test_output[number_of_test];
