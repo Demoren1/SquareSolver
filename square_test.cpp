@@ -32,8 +32,6 @@ void test_square_equation()
         fscanf(file_input_tests, "%lf %lf %lf", &a, &b, &c);
         fscanf(file_output_tests, "%lf %lf %d", &x1, &x2, &n_roots);
 
-        printf("%f, %f, %f \n", a, b, c);
-
         test_parameters = {a, b, c};
         test_roots      = {x1, x2, n_roots};
 
@@ -49,8 +47,10 @@ void test_square_equation()
         {
             INF_ABOUT_ERROR
             error_test(++passed_tests);
-            printf("Gotten x1 = %lg, x2 =%lg, n_roots = %d", test_solution.root1,
+            printf("Gotten   x1 = %lg, x2 = %lg, n_roots = %d\n", test_solution.root1,
                    test_solution.root2, test_solution,n_roots);
+            printf("Expected x1 = %lg, x2 = %lg, n_roots = %d\n", test_roots.root1,
+                   test_roots.root1, test_roots.n_roots);
 
         }
     }

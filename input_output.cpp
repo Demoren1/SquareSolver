@@ -37,21 +37,26 @@ char input_parameters(struct Param* par)
 
 char get_number(double* x)
 {
+    int getting_num = 1;
     char current_sym = 0;
 
-    while (scanf("%lf", x) != 1)
+    while (getting_num)
     {
+        scanf("%lf", x);
         current_sym = getchar();
 
-        if (current_sym == 'q')
+        if (want_to_exit(current_sym))
         {
             return END_INPUT;
         }
+        else if (current_sym =='\n')
+            break;
 
         while ( current_sym != '\n')
         {
             current_sym = getchar();
         }
+
 
         printf("is not number, please input  number: ");
     }
@@ -98,3 +103,7 @@ void  menu(double* choice)
     get_number(choice);
 }
 
+int want_to_exit(char exit_test)
+{
+    return (exit_test == 'q') ? 1 : 0;
+}

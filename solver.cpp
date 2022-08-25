@@ -4,7 +4,7 @@
 #include <float.h>
 #include <assert.h>
 #include "square_functions_and_constants.hpp"
-void solve_linear_equation(double b, double c, struct Result* sol)
+void solve_linear_equation(const double b, const double c, struct Result* sol)
 {
     assert (sol != NULL);
     assert (std::isfinite(b));

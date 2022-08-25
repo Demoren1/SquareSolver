@@ -12,7 +12,6 @@ int main()
     //!@param [in] paramaters coefficients of equations
     struct Result solution  = {0, 0, -1};
     struct Param parameters = {0, 0,  0};
-    int is_ran_solver_eq    = 1;
     double choice           = 1;
 
     while (choice != EXIT)
@@ -21,6 +20,7 @@ int main()
 
         if (choice == SOLVE_SQUARE_EQUATION)
         {
+            int is_ran_solver_eq    = 1;
             while (is_ran_solver_eq)
             {
                     invite_to_input();            //SOLUTION->root1
