@@ -4,7 +4,7 @@
 #include <float.h>
 #include <assert.h>
 #include "square_functions_and_constants.hpp"
-void solve_linnar_equation(double b, double c, struct Result* sol)
+void solve_linear_equation(double b, double c, struct Result* sol)
 {
     assert (sol != NULL);
     assert (std::isfinite(b));
@@ -21,7 +21,7 @@ void solve_linnar_equation(double b, double c, struct Result* sol)
     }
 }
 
-void solve_square_equation(struct Param* par, struct Result* sol)
+void solve_square_equation(const struct Param* const par, struct Result* const  sol)
 {
     assert (par != NULL);
     assert (sol != NULL);
@@ -35,7 +35,7 @@ void solve_square_equation(struct Param* par, struct Result* sol)
 
     if (is_zero(a))
     {
-        solve_linnar_equation(b, c, sol);
+        solve_linear_equation(b, c, sol);
     }
     else
     {

@@ -5,22 +5,26 @@
 #include <assert.h>
 #include "square_functions_and_constants.hpp"
 
+//!@file
+//!  main() -- square solver
 int main()
 {
+    //!@param [in] paramaters coefficients of equations
     struct Result solution  = {0, 0, -1};
     struct Param parameters = {0, 0,  0};
     int is_ran_solver_eq    = 1;
     double choice           = 1;
 
-    while (choice !=3)
+    while (choice != EXIT)
     {
         menu(&choice);
+
         if (choice == SOLVE_SQUARE_EQUATION)
         {
-            while ( is_ran_solver_eq  )
+            while (is_ran_solver_eq)
             {
                     invite_to_input();            //SOLUTION->root1
-                    if ( input_parameters(&parameters) == END_INPUT)
+                    if (input_parameters(&parameters) == END_INPUT)
                     {
                         is_ran_solver_eq = 0;
                         break;
@@ -30,7 +34,7 @@ int main()
                     clear_of_buff();
             }
         }
-        else if ( choice == TEST_SQUARE_EQUATION)
+        else if (choice == TEST_SQUARE_EQUATION)
         {
             test_square_equation();
         }

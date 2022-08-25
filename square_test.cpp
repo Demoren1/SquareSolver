@@ -12,14 +12,30 @@ void output_tests(struct Result* output_t, int number_of_test);
 
 void test_square_equation()
 {
+    FILE* file_input_tests;
+    FILE* file_output_tests;
+    file_input_tests  = fopen("input_test.txt", "a+");
+    file_output_tests = fopen("output_test.txt", "a+");
+
     for (int passed_tests = 0; passed_tests < 7; )
     {
+        double x1 = 0, x2 = 0, a = 0, b = 0, c = 0;
+        int n_roots = 0;
+
         struct Param test_parameters = {0, 0, 0};
         struct Result test_roots     = {0, 0, 0};
         struct Result test_solution  = {0, 0, 0};
 
-        input_tests (&test_parameters, passed_tests);
-        output_tests(&test_roots,     passed_tests);
+        //input_tests (&test_parameters, passed_tests);
+        //output_tests(&test_roots,     passed_tests);
+
+        fscanf(file_input_tests, "%lf %lf %lf", &a, &b, &c);
+        fscanf(file_output_tests, "%lf %lf %d", &x1, &x2, &n_roots);
+
+        printf("%f, %f, %f \n", a, b, c);
+
+        test_parameters = {a, b, c};
+        test_roots      = {x1, x2, n_roots};
 
         solve_square_equation(&test_parameters, &test_solution);
 
@@ -33,9 +49,13 @@ void test_square_equation()
         {
             INF_ABOUT_ERROR
             error_test(++passed_tests);
+            printf("Gotten x1 = %lg, x2 =%lg, n_roots = %d", test_solution.root1,
+                   test_solution.root2, test_solution,n_roots);
+
         }
     }
-
+    fclose(file_input_tests);
+    fclose(file_output_tests);
     getchar();
 }
 

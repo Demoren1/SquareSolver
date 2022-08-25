@@ -73,10 +73,10 @@ void output(struct Result sol)
         printf("x belong to empty set");
         break;
     case ONE_ROOT:
-        printf("The root of equation is %.3f\n", sol.root1);
+        printf("The root of equation is %lg\n", sol.root1);
         break;
     case TWO_ROOTS:
-        printf ("The roots of equation are %.3f and %.3f\n", sol.root1, sol.root2);
+        printf ("The roots of equation are %lg and %lg\n", sol.root1, sol.root2);
         break;
     case INF_ROOTS:
         printf("x belong to R\n");
