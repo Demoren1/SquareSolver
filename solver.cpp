@@ -1,67 +1,61 @@
-#include <stdio.h>
-#include <math.h>
-#include <cmath>   // for isfinite
-#include <float.h>
-#include <assert.h>
 #include "square_functions_and_constants.hpp"
-void solve_linear_equation(const double b, const double c, struct Result* sol)
+void solve_linear_equation(const double b, const double c, struct Result* solution)
 {
-    assert (sol != NULL);
+    assert (solution != NULL);
     assert (std::isfinite(b));
     assert (std::isfinite(c));
 
     if (is_zero(b))
     {
-        sol->n_roots = (is_zero(c)) ? INF_ROOTS : ZERO_ROOT;
+        solution->n_roots = (is_zero(c)) ? INF_ROOTS : ZERO_ROOT;
     }
     else
     {
-        sol->root1 = (-c) / b;
-        sol->n_roots = 1;
+        solution->root1 = (-c) / b;
+        solution->n_roots = ONE_ROOT;
     }
 }
 
-void solve_square_equation(const struct Param* const par, struct Result* const  sol)
+void solve_square_equation(const struct Param* const parameters, struct Result* const  solution)
 {
-    assert (par != NULL);
-    assert (sol != NULL);
-    assert (std::isfinite(par->a));
-    assert (std::isfinite(par->b));
-    assert (std::isfinite(par->c));
+    assert (parameters != NULL);
+    assert (solution   != NULL);
+    assert (std::isfinite(parameters->a));
+    assert (std::isfinite(parameters->b));
+    assert (std::isfinite(parameters->c));
 
-    double a = par->a, b = par->b, c = par->c;
     double D = 0, sqrt_D = 0;
-    double double_a = 2*a;
+    double double_a = 2*parameters->a;
 
-    if (is_zero(a))
+    if (is_zero(parameters->a))
     {
-        solve_linear_equation(b, c, sol);
+        solve_linear_equation(parameters->b, parameters->c, solution);
     }
     else
     {
-        D = b * b - 4 * a * c;
+        D = parameters->b * parameters->b - 4 * parameters->a * parameters->c;
 
         if (D > 0)
         {
             sqrt_D = sqrt(D);
-            sol->root1 = (-b - sqrt_D) / double_a;
-            sol->root2 = (-b + sqrt_D) / double_a;
-            sol->n_roots = 2;
+            solution->root1 = (-parameters->b - sqrt_D) / double_a;
+            solution->root2 = (-parameters->b + sqrt_D) / double_a;
+            solution->n_roots = 2;
         }
         else if (is_zero(D))
         {
-            sol->root1 = (-b) / double_a;
-            sol->n_roots = 1;
+            solution->root1 = (-parameters->b) / double_a;
+            solution->n_roots = 1;
         }
         else
         {
-            sol->n_roots = 0;
+            solution->n_roots = ZERO_ROOT;
         }
     }
 }
-int is_zero(double u)
+int is_zero(const double number)
 {
-    return (fabs(u) <= FLT_EPSILON);
+    return (fabs(number) <= FLT_EPSILON);
 }
 
 

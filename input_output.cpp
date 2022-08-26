@@ -1,8 +1,3 @@
-#include <stdio.h>
-#include <math.h>
-#include <cmath>   // for isfinite
-#include <float.h>
-#include <assert.h>
 #include "square_functions_and_constants.hpp"
 
 void invite_to_input(void)
@@ -12,51 +7,51 @@ void invite_to_input(void)
 }
 
 
-char input_parameters(struct Param* par)
+char input_parameters(struct Param* parameters)
 {
-    assert(par != NULL);
+    #define input_letter(letter) \
+        printf("%s= ", #letter); \
+        if ( get_number(&parameters->letter) == 'q') \
+    {                                   \
+        return END_INPUT;              \
+    }
 
-    printf("a=");
-    if ( get_number(&par->a) == 'q')
-    {
-        return END_INPUT;
-    }
-    printf("b=");
-    if ( get_number(&par->b) == 'q')
-    {
-        return END_INPUT;
-    }
-    printf("c=");
-    if ( get_number(&par->c) == 'q')
-    {
-        return END_INPUT;
-    }
+    assert(parameters != NULL);
+
+    input_letter(a);
+    input_letter(b);
+    input_letter(c);
+    #undef input_letter
 
     return 0;
 }
 
 char get_number(double* x)
 {
-    int getting_num = 1;
+    assert (x != 0);
+
+    bool getting_num = true;
+    bool is_number_in_buff = false;
     char current_sym = 0;
 
     while (getting_num)
     {
-        scanf("%lf", x);
+        is_number_in_buff = scanf("%lf", x);
         current_sym = getchar();
 
-        if (want_to_exit(current_sym))
+        if (want_to_exit(current_sym) && !(is_number_in_buff))
         {
             return END_INPUT;
         }
         else if (current_sym =='\n')
             break;
-
-        while ( current_sym != '\n')
+        else
         {
-            current_sym = getchar();
+            while ( current_sym != '\n')
+            {
+                current_sym = getchar();
+            }
         }
-
 
         printf("is not number, please input  number: ");
     }
@@ -70,37 +65,39 @@ void clear_of_buff(void)
     }
 }
 
-void output(struct Result sol)
+void output(struct Result* solution)
 {
-    switch(sol.n_roots)
+    switch(solution->n_roots)
     {
-    case ZERO_ROOT:
-        printf("x belong to empty set");
-        break;
-    case ONE_ROOT:
-        printf("The root of equation is %lg\n", sol.root1);
-        break;
-    case TWO_ROOTS:
-        printf ("The roots of equation are %lg and %lg\n", sol.root1, sol.root2);
-        break;
-    case INF_ROOTS:
-        printf("x belong to R\n");
-        break;
-    default:
-        printf("ERROR, invalid quantity of roots");
-        break;
+        case ZERO_ROOT:
+            printf("x belongs to empty set");
+            break;
+        case ONE_ROOT:
+            printf("The root of equation is %lg\n", solution->root1);
+            break;
+        case TWO_ROOTS:
+            printf ("The roots of equation are %lg and %lg\n", solution->root1, solution->root2);
+            break;
+        case INF_ROOTS:
+            printf("x belongs to R\n");
+            break;
+        default:
+            printf("ERROR, invalid quantity of roots");
+            break;
     }
 }
 
-void  menu(double* choice)
+void  menu(int* choice)
 {
-    printf("\n********************************************************************************\n\n");
-    printf("Select function\n");
-    printf("1. Solving a square equation          2. Testing a solution of square solver\n");
-    printf("3. Exit\n");
-    printf("********************************************************************************\n\n");
+    assert(choice != 0);
+    printf("******************************************************************************\n"
+           "Select function\n"
+           "1. Solving a square equation              2. Testing a solution of square solver"
+           "3. Testing a solution of linear equation  4. Testing comparing with zero \n"
+           "5. Exit\n"
+           "********************************************************************************\n");
 
-    get_number(choice);
+    scanf("%d", choice);
 }
 
 int want_to_exit(char exit_test)
