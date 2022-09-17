@@ -52,8 +52,7 @@ void test_linear_equation()
 void error_in_linear_test(int num, struct Result* test_solution, struct Result* test_roots)
 {
     printf("Error in %d test\n", num + 1);
-    printf("Gotten   x1 = %lg, n_roots = %d\n", test_solution->root1,
-            test_solution->root2, test_solution->n_roots);
+    printf("Gotten   x1 = %lg, n_roots = %d\n", test_solution->root1, test_solution->n_roots);
     printf("Expected x1 = %lg, n_roots = %d\n\n", test_roots->root1,
             test_roots->n_roots);
 
