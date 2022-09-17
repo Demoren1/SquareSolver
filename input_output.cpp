@@ -92,7 +92,7 @@ void  menu (int* const choice)
     assert(choice != 0);
     printf("******************************************************************************\n"
            "Select function\n"
-           "1. Solving a square equation              2. Testing a solution of square solver"
+           "1. Solving a square equation              2. Testing a solution of square solver\n"
            "3. Testing a solution of linear equation  4. Testing comparing with zero \n"
            "5. Exit\n"
            "********************************************************************************\n");
